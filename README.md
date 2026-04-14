@@ -49,7 +49,7 @@ The system is designed with scalability, usability, and maintainability in mind,
 
 ---
 
-## 🏗️ Software Engineering Artifacts
+## 🏗️ Documentations
 
 📄 [Software Requirements Specification **(SRS)** Document](https://docs.google.com/document/d/1wwWBh8z3AH_SQ6VT_CDYNp16ch0vnynNJ3NVEdWyhnU/edit?usp=sharing)
 
