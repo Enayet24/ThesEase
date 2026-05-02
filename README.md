@@ -2,7 +2,7 @@
 
 ## 📘 Project Overview
 
-**Thes-ease** is a web-based Thesis Slot Booking System designed to simplify the process of browsing, scheduling and booking slots for students interested in doing thesis. The system addresses common challenges such as manual scheduling conflicts, lack of centralized coordination and inefficient information.
+**ThesEase** is a web-based Thesis Slot Booking System designed to simplify the process of browsing, scheduling and booking slots for students interested in doing thesis. The system addresses common challenges such as manual scheduling conflicts, lack of centralized coordination and inefficient information.
 
 The platform enables students to book thesis slots of superviors, allows supervisors to manage their schedules and helps students to find the best suitable supervisor based on their interest. It will be a one stop solution for all the unnecessary confusion and hassle regarding the entire process. 
 
