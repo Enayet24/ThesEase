@@ -1,0 +1,276 @@
+.advisor-dashboard {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A3557;
+  margin: 0 0 4px 0;
+}
+
+.dashboard-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: #1A3557;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: #2563eb; }
+
+.btn-outline {
+  background: white;
+  color: #1A3557;
+  border: 1.5px solid #1A3557;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-outline:hover {
+  background: #f1f5f9;
+}
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-top: 4px solid #1A3557;
+}
+
+.stat-card.available { border-top-color: #16a34a; }
+.stat-card.booked    { border-top-color: #dc2626; }
+.stat-card.bookings  { border-top-color: #2563eb; }
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Sections */
+.dashboard-section {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.dashboard-section h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1A3557;
+  margin: 0 0 20px 0;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 32px;
+  color: #94a3b8;
+  font-size: 14px;
+}
+
+.empty-state a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Bookings */
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.booking-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.booking-avatar {
+  width: 44px;
+  height: 44px;
+  background: #1A3557;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.booking-info {
+  flex: 1;
+}
+
+.booking-info h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 2px 0;
+}
+
+.booking-info p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.booking-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.slot-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.slot-time {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.status-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.status-pill.active {
+  background: #dcfce7;
+  color: #166534;
+}
+
+/* Slots grid */
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.slot-card {
+  background: #f8fafc;
+  border-radius: 10px;
+  padding: 16px;
+  border: 1px solid #e2e8f0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.slot-date-info {
+  display: flex;
+  gap: 6px;
+  align-items: baseline;
+}
+
+.slot-day {
+  font-size: 13px;
+  font-weight: 700;
+  color: #1A3557;
+  text-transform: uppercase;
+}
+
+.slot-full-date {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.slot-time-info {
+  font-size: 13px;
+  font-weight: 500;
+  color: #1e293b;
+}
+
+.slot-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 999px;
+  align-self: flex-start;
+}
+
+.slot-status-badge.available {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.slot-status-badge.booked {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.dashboard-loading,
+.dashboard-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 16px;
+  color: #64748b;
+}

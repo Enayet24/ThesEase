@@ -1,0 +1,242 @@
+.student-dashboard {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.dashboard-header h1 {
+  font-size: 24px;
+  font-weight: 800;
+  color: #1A3557;
+  margin: 0 0 4px 0;
+}
+
+.dashboard-header p {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.btn-primary {
+  background: #1A3557;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+  display: inline-block;
+}
+
+.btn-primary:hover { background: #2563eb; }
+
+/* Stats */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-top: 4px solid #1A3557;
+}
+
+.stat-card.active-stat   { border-top-color: #16a34a; }
+.stat-card.cancelled-stat { border-top-color: #dc2626; }
+.stat-card.total-stat    { border-top-color: #2563eb; }
+
+.stat-number {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1e293b;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #64748b;
+  font-weight: 500;
+}
+
+/* Section */
+.dashboard-section {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.section-header h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1A3557;
+  margin: 0;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  background: #f1f5f9;
+  border-radius: 8px;
+  padding: 4px;
+  gap: 4px;
+}
+
+.tab {
+  padding: 7px 16px;
+  border-radius: 6px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  background: transparent;
+  color: #64748b;
+  transition: all 0.2s;
+}
+
+.tab.active {
+  background: white;
+  color: #1A3557;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+/* Empty state */
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #94a3b8;
+}
+
+.empty-state p {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+}
+
+.empty-state span {
+  font-size: 13px;
+}
+
+.empty-state a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* Bookings */
+.bookings-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.booking-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+.booking-avatar {
+  width: 44px;
+  height: 44px;
+  background: #1A3557;
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.booking-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.booking-info h3 {
+  font-size: 15px;
+  font-weight: 600;
+  color: #1e293b;
+  margin: 0 0 2px 0;
+}
+
+.booking-info p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 0;
+}
+
+.booking-slot {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.slot-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.slot-time {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.status-pill {
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.status-pill.active    { background: #dcfce7; color: #166534; }
+.status-pill.cancelled { background: #fee2e2; color: #991b1b; }
+
+.dashboard-loading,
+.dashboard-error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 16px;
+  color: #64748b;
+}
