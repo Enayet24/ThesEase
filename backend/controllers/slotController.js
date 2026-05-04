@@ -38,13 +38,27 @@ const slot = await Slot.create({
 // ==============================
 export const getAvailableSlots = async (req, res) => {
   try {
-    const slots = await Slot.find({ status: "available" })
-  .populate("advisor", "email");
+    const slots = await Slot.find()
+      .populate("advisor", "email");
 
-res.json({
-  count: slots.length,
-  slots
-});
+    const formattedSlots = slots.map(slot => ({
+      id: slot._id,
+      time: slot.time,
+      advisor: slot.advisor,
+      status: slot.status,
+      isAvailable: slot.status === "available"
+    }));
+
+    res.json({
+      totalSlots: slots.length,
+      availableSlots: formattedSlots.filter(s => s.isAvailable).length,
+      slots: formattedSlots
+    });
+
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 
 // ==============================
