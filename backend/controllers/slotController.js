@@ -8,11 +8,23 @@ export const createSlot = async (req, res) => {
   try {
     const { time } = req.body;
 
-    const slot = await Slot.create({
-      time,
-      advisor: req.user._id,
-      status: "available",
-    });
+// 🔒 IMPROVEMENT 3: prevent duplicate slot creation
+const existing = await Slot.findOne({
+  time,
+  advisor: req.user._id
+});
+
+if (existing) {
+  return res.status(400).json({
+    message: "Slot already exists for this time"
+  });
+}
+
+const slot = await Slot.create({
+  time,
+  advisor: req.user._id,
+  status: "available",
+});
 
     res.status(201).json(slot);
   } catch (error) {
@@ -27,13 +39,12 @@ export const createSlot = async (req, res) => {
 export const getAvailableSlots = async (req, res) => {
   try {
     const slots = await Slot.find({ status: "available" })
-      .populate("advisor", "email");
+  .populate("advisor", "email");
 
-    res.json(slots);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+res.json({
+  count: slots.length,
+  slots
+});
 
 
 // ==============================
@@ -43,21 +54,28 @@ export const bookSlot = async (req, res) => {
   try {
     const slot = await Slot.findById(req.params.id);
 
-    if (!slot) {
-      return res.status(404).json({ message: "Slot not found" });
-    }
+if (!slot) {
+  return res.status(404).json({ message: "Slot not found" });
+}
 
-    if (slot.status === "booked") {
-      return res.status(400).json({ message: "Slot already booked" });
-    }
+// 🔒 IMPROVEMENT 1: safer booking check
+if (slot.status !== "available") {
+  return res.status(400).json({ message: "Slot already booked" });
+}
 
-    slot.status = "booked";
-    slot.student = req.user._id;
+// optional safety rule
+if (slot.advisor.toString() === req.user._id.toString()) {
+  return res.status(400).json({
+    message: "Advisor cannot book own slot"
+  });
+}
 
-    await slot.save();
+slot.status = "booked";
+slot.student = req.user._id;
 
-    res.json(slot);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
+await slot.save();
+
+res.json({
+  message: "Slot booked successfully",
+  slot
+});
