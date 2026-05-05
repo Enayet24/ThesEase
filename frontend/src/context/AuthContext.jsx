@@ -7,7 +7,7 @@ const MOCK_USER = {
   _id: '664f1b2c9a4e2d001f8a1234',
   name: 'Ahmed Rahman',
   email: 'student@test.com',
-  role: 'Student', // change to 'student' to test student pages
+  role: 'advisor', // change to 'student' to test student pages
 };
 
 export const AuthProvider = ({ children }) => {

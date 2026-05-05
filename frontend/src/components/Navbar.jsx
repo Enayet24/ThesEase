@@ -32,6 +32,7 @@ function Navbar() {
             <Link to="/advisor/dashboard">Dashboard</Link>
             <Link to="/advisor/profile">Profile</Link>
             <Link to="/advisor/routine">Routine</Link>
+            <Link to="/advisor/slots">Slots</Link>
           </>
         )}
         {user.role === 'student' && (
