@@ -10,6 +10,10 @@ import RoutineManager from './pages/advisor/RoutineManager';
 import StudentDashboard from './pages/student/StudentDashboard';
 import AdvisorBrowse from './pages/student/AdvisorBrowse';
 
+import SlotManager from './pages/advisor/SlotManager';
+import BookSlot from './pages/student/BookSlot';
+import ReviewModal from './pages/student/ReviewModal';
+
 const ProtectedRoute = ({ children, role }) => {
   const { user } = useAuth();
   if (!user) return <Navigate to="/login" />;
@@ -50,6 +54,9 @@ function App() {
         } />
         <Route path="/advisor/routine" element={
           <ProtectedRoute role="advisor"><RoutineManager /></ProtectedRoute>
+        } />
+        <Route path="/advisor/slots" element={
+          <ProtectedRoute role="advisor"><SlotManager /></ProtectedRoute>
         } />
 
         {/* Student Routes */}

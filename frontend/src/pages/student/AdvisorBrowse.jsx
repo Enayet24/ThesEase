@@ -2,6 +2,10 @@ import { useState, useEffect } from 'react';
 import { browseAdvisors, getAdvisorDetails, getFilteredSlots } from '../../services/studentService';
 import './AdvisorBrowse.css';
 
+import BookSlot from './BookSlot'; 
+
+
+
 function AdvisorBrowse() {
   const [advisors, setAdvisors] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -13,6 +17,8 @@ function AdvisorBrowse() {
   const [isAccepting, setIsAccepting] = useState('');
 
   const [filterDate, setFilterDate] = useState('');
+
+  const [bookingSlot, setBookingSlot] = useState(null);
 
   const [selectedAdvisor, setSelectedAdvisor] = useState(null);
   const [advisorDetails, setAdvisorDetails] = useState(null);
@@ -72,7 +78,7 @@ function AdvisorBrowse() {
     setFilterDate('');
   };
 
-  // ✅ CLEAN API CALL (NO fetch)
+
   const handleFilterSlots = async () => {
     if (!selectedAdvisor) return;
 
@@ -191,10 +197,13 @@ function AdvisorBrowse() {
                       </span>
 
                       <button
-                        disabled={slot.status === "booked"}
+                        className="btn-book"
+                        disabled={!selectedAdvisor.isAccepting}
+                        onClick={() => setBookingSlot(slot)}
                       >
                         Book
                       </button>
+
                     </div>
                   ))
                 )}
@@ -203,6 +212,18 @@ function AdvisorBrowse() {
           </div>
         </div>
       )}
+
+      {bookingSlot && (
+        <BookSlot
+        slot={bookingSlot}
+        onClose={() => setBookingSlot(null)}
+        onBooking={() => {
+          setBookingSlot(null);
+          handleCloseModal();
+          }}
+        />
+      )}
+
     </div>
   );
 }

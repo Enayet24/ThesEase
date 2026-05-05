@@ -1,0 +1,253 @@
+.slot-manager-container {
+  min-height: 100vh;
+  background: #f1f5f9;
+  padding: 40px 20px;
+}
+
+.slot-manager-inner {
+  max-width: 720px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.slot-manager-title {
+  font-size: 26px;
+  font-weight: 800;
+  color: #1A3557;
+  margin: 0 0 6px 0;
+}
+
+.slot-manager-subtitle {
+  font-size: 14px;
+  color: #64748b;
+  margin: 0;
+}
+
+.slot-form-card,
+.slot-list-card {
+  background: white;
+  border-radius: 16px;
+  padding: 28px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+
+.slot-form-card h2,
+.slot-list-card h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #1A3557;
+  margin: 0 0 20px 0;
+}
+
+.slot-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #334155;
+}
+
+.form-group input {
+  padding: 10px 12px;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  font-size: 14px;
+  color: #1e293b;
+  outline: none;
+  font-family: inherit;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+}
+
+.form-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-primary {
+  background: #1A3557;
+  color: white;
+  border: none;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-primary:hover { background: #2563eb; }
+.btn-primary:disabled { background: #94a3b8; cursor: not-allowed; }
+
+.btn-secondary {
+  background: white;
+  color: #475569;
+  border: 1px solid #cbd5e1;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-secondary:hover { background: #f8fafc; }
+
+.alert {
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
+.alert-success { background: #dcfce7; color: #166534; border: 1px solid #bbf7d0; }
+
+/* Stats */
+.slot-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.slot-stat {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  border-top: 4px solid #1A3557;
+}
+
+.slot-stat.available { border-top-color: #16a34a; }
+.slot-stat.booked    { border-top-color: #dc2626; }
+.slot-stat.total     { border-top-color: #2563eb; }
+
+.slot-stat span {
+  font-size: 32px;
+  font-weight: 800;
+  color: #1e293b;
+  display: block;
+}
+
+.slot-stat p {
+  font-size: 13px;
+  color: #64748b;
+  margin: 4px 0 0 0;
+}
+
+/* Slot list */
+.slot-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.slot-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: #f8fafc;
+  border-radius: 10px;
+  border: 1px solid #e2e8f0;
+  flex-wrap: wrap;
+}
+
+.slot-item-date {
+  display: flex;
+  flex-direction: column;
+  min-width: 80px;
+}
+
+.slot-day {
+  font-size: 11px;
+  font-weight: 700;
+  color: #2563eb;
+  text-transform: uppercase;
+}
+
+.slot-full-date {
+  font-size: 13px;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.slot-item-time {
+  font-size: 14px;
+  color: #475569;
+  flex: 1;
+}
+
+.slot-badge {
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 999px;
+}
+
+.slot-badge.available { background: #dcfce7; color: #166534; }
+.slot-badge.booked    { background: #fee2e2; color: #991b1b; }
+
+.slot-item-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-edit {
+  background: #eff6ff;
+  color: #2563eb;
+  border: 1px solid #bfdbfe;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-edit:hover { background: #dbeafe; }
+
+.btn-delete {
+  background: #fff1f2;
+  color: #e11d48;
+  border: 1px solid #fecdd3;
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-delete:hover { background: #ffe4e6; }
+
+.empty-state {
+  text-align: center;
+  padding: 40px 0;
+  color: #94a3b8;
+}
+
+.empty-state p { font-size: 15px; font-weight: 600; margin: 0 0 4px 0; }
+.empty-state span { font-size: 13px; }
+.empty-msg { color: #94a3b8; font-size: 14px; }
