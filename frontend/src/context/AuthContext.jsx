@@ -1,29 +1,21 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import api from '../services/api';
+import { createContext, useContext, useState } from 'react';
 
 const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+// 🔧 MOCK USER — change role to 'student' to test student pages
+const MOCK_USER = {
+  _id: '664f1b2c9a4e2d001f8a1234',
+  name: 'Ahmed Rahman',
+  email: 'student@test.com',
+  role: 'Student', // change to 'student' to test student pages
+};
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const res = await api.get('/auth/me');
-        setUser(res.data);
-      } catch {
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchUser();
-  }, []);
+export const AuthProvider = ({ children }) => {
+  const [user, setUser] = useState(MOCK_USER);
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading }}>
-      {!loading && children}
+    <AuthContext.Provider value={{ user, setUser, loading: false }}>
+      {children}
     </AuthContext.Provider>
   );
 };

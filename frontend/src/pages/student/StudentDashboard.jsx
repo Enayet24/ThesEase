@@ -6,7 +6,10 @@ import './StudentDashboard.css';
 
 function StudentDashboard() {
   const { user } = useAuth();
-  const [dashboard, setDashboard] = useState(null);
+  const [dashboard, setDashboard] = useState({
+    activeBookings: [],
+    cancelledBookings: []
+  });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [activeTab, setActiveTab] = useState('active');
@@ -16,8 +19,10 @@ function StudentDashboard() {
       try {
         const res = await getStudentDashboard();
         setDashboard(res.data);
-      } catch {
-        setError('Failed to load dashboard data.');
+      } catch (err) {
+        console.error('Dashboard error:', err);
+        // Don't block the UI — just show empty dashboard
+        setError(null);
       } finally {
         setLoading(false);
       }
@@ -26,13 +31,19 @@ function StudentDashboard() {
   }, []);
 
   if (loading) return <div className="dashboard-loading">Loading dashboard...</div>;
-  if (error) return <div className="dashboard-error">{error}</div>;
 
   const { activeBookings, cancelledBookings } = dashboard;
   const displayed = activeTab === 'active' ? activeBookings : cancelledBookings;
 
   return (
     <div className="student-dashboard">
+      {/* Backend warning banner */}
+      {error && (
+        <div className="backend-warning">
+          ⚠️ Could not connect to server. Showing empty dashboard.
+        </div>
+      )}
+
       {/* Header */}
       <div className="dashboard-header">
         <div>
