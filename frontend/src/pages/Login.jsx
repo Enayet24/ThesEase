@@ -1,89 +1,135 @@
 import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../api/authAPI';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
+import toast from 'react-hot-toast';
 import './Login.css';
 
-function Login() {
-  const { setUser } = useAuth();
+const Login = () => {
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({ email: '', password: '' });
+  const { login } = useAuth();
+  const [form, setForm] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [showPass, setShowPass] = useState(false);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setForm({ ...form, [e.target.name]: e.target.value });
+    if (errors[e.target.name]) setErrors({ ...errors, [e.target.name]: '' });
+  };
+
+  const validate = () => {
+    const e = {};
+    if (!form.email.trim()) e.email = 'Email is required';
+    if (!form.password) e.password = 'Password is required';
+    setErrors(e);
+    return Object.keys(e).length === 0;
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validate()) return;
     setLoading(true);
-    setError(null);
     try {
-      const res = await api.post('/auth/login', formData);
-      setUser(res.data.user);
+      const res = await loginUser(form);
+      login(res.data.token, res.data.user);
+      toast.success('Welcome back!');
       if (res.data.user.role === 'advisor') {
         navigate('/advisor/dashboard');
-      } else if (res.data.user.role === 'student') {
-        navigate('/student/dashboard');
       } else {
-        navigate('/');
+        navigate('/student/dashboard');
       }
     } catch (err) {
-      setError(err.response?.data?.message || 'Login failed. Please try again.');
+      const data = err.response?.data;
+      if (data?.needsVerification) {
+        toast.error('Please verify your email first');
+        navigate('/verify-email', { state: { email: data.email } });
+      } else {
+        toast.error(data?.message || 'Login failed');
+      }
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="login-container">
-      <div className="login-card">
-        <div className="login-logo">
-          <h1>Thes<span>Ease</span></h1>
-          <p>Thesis Slot Booking System</p>
+    <div className="auth-page">
+      {/* Left Branding Panel */}
+      <div className="auth-branding">
+        <div className="branding-content">
+          <span className="branding-logo">📚</span>
+          <h1 className="branding-title">ThesEase</h1>
+          <p className="branding-subtitle">
+            Your centralized platform for seamless thesis consultation scheduling at BRAC University.
+          </p>
+          <div className="branding-features">
+            <div className="branding-feature">
+              <span className="branding-feature-icon">🎯</span>
+              <span className="branding-feature-text">Match with advisors based on research interests</span>
+            </div>
+            <div className="branding-feature">
+              <span className="branding-feature-icon">📅</span>
+              <span className="branding-feature-text">Book consultation slots with a single click</span>
+            </div>
+            <div className="branding-feature">
+              <span className="branding-feature-icon">🔔</span>
+              <span className="branding-feature-text">Receive instant booking notifications</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Right Form Panel */}
+      <div className="auth-form-panel">
+        <div className="auth-mobile-header">
+          <h1 className="branding-title">ThesEase</h1>
         </div>
 
-        <h2>Sign in to your account</h2>
-
-        {error && <div className="alert alert-error">{error}</div>}
-
-        <form onSubmit={handleSubmit} className="login-form">
-          <div className="form-group">
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              placeholder="your@university.edu"
-              required
-            />
+        <div className="auth-form-container">
+          <div className="auth-form-header">
+            <h2>Welcome Back</h2>
+            <p>Log in to your ThesEase account</p>
           </div>
 
-          <div className="form-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              placeholder="Enter your password"
-              required
-            />
+          <form className="auth-form" onSubmit={handleSubmit} id="login-form">
+            <div className="input-group">
+              <label htmlFor="login-email">University Email</label>
+              <input
+                id="login-email" name="email" type="email"
+                className={`input-field ${errors.email ? 'error' : ''}`}
+                placeholder="example@g.bracu.ac.bd"
+                value={form.email} onChange={handleChange}
+              />
+              {errors.email && <span className="input-error">⚠ {errors.email}</span>}
+            </div>
+
+            <div className="input-group">
+              <label htmlFor="login-password">Password</label>
+              <input
+                id="login-password" name="password"
+                type={showPass ? 'text' : 'password'}
+                className={`input-field ${errors.password ? 'error' : ''}`}
+                placeholder="Enter your password"
+                value={form.password} onChange={handleChange}
+              />
+              <button type="button" className="password-toggle" onClick={() => setShowPass(!showPass)}>
+                {showPass ? '🙈' : '👁'}
+              </button>
+              {errors.password && <span className="input-error">⚠ {errors.password}</span>}
+            </div>
+
+            <button type="submit" className="btn btn-primary auth-submit-btn" disabled={loading} id="login-submit-btn">
+              {loading ? <><div className="spinner"></div> Logging in...</> : 'Log In'}
+            </button>
+          </form>
+
+          <div className="auth-form-footer">
+            Don't have an account? <Link to="/signup">Sign Up</Link>
           </div>
-
-          <button type="submit" className="btn-login" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
-          </button>
-        </form>
-
-        <p className="signup-link">
-          Don't have an account? <Link to="/signup">Sign up</Link>
-        </p>
+        </div>
       </div>
     </div>
   );
-}
+};
 
 export default Login;

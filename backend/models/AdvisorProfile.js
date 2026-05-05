@@ -19,7 +19,7 @@ const advisorProfileSchema = new mongoose.Schema({
   expertiseTags: [{ 
     type: String,
     trim: true,
-    lowercase: true   // 🔥 ensures consistent searching
+    lowercase: true   // ensures consistent searching
   }],
 
   isAccepting: { 
@@ -29,7 +29,7 @@ const advisorProfileSchema = new mongoose.Schema({
 
 }, { timestamps: true });
 
-// 🔥 Index for faster search
+// Index for faster search
 advisorProfileSchema.index({ expertiseTags: 1 });
 
 module.exports = mongoose.model('AdvisorProfile', advisorProfileSchema);

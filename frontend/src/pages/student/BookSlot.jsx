@@ -1,66 +1,53 @@
 import { useState } from 'react';
-import { bookSlot, cancelBooking } from '../../services/slotService';
+import { bookSlot } from '../../services/slotService';
+import toast from 'react-hot-toast';
 import './BookSlot.css';
 
 function BookSlot({ slot, onBooked, onClose }) {
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [success, setSuccess] = useState(false);
 
   const handleBook = async () => {
     setLoading(true);
-    setError(null);
     try {
       await bookSlot(slot._id);
-      setSuccess(true);
+      toast.success('Slot booked successfully!');
       setTimeout(() => {
         onBooked && onBooked();
         onClose && onClose();
-      }, 1500);
+      }, 800);
     } catch (err) {
-      setError(err.response?.data?.message || 'Failed to book slot.');
+      toast.error(err.response?.data?.message || 'Failed to book slot');
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="book-slot-modal">
-      <div className="book-slot-card">
+    <div className="book-slot-overlay" onClick={onClose}>
+      <div className="book-slot-card" onClick={e => e.stopPropagation()}>
         <h2>Confirm Booking</h2>
 
-        {success ? (
-          <div className="booking-success">
-            <span className="success-icon">✅</span>
-            <p>Booking confirmed!</p>
+        <div className="slot-summary">
+          <div className="summary-row">
+            <span className="summary-label">📅 Date</span>
+            <span className="summary-value">
+              {new Date(slot.date).toLocaleDateString('en-US', {
+                weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
+              })}
+            </span>
           </div>
-        ) : (
-          <>
-            <div className="slot-summary">
-              <div className="summary-row">
-                <span className="summary-label">Date</span>
-                <span className="summary-value">
-                  {new Date(slot.date).toLocaleDateString('en-US', {
-                    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric'
-                  })}
-                </span>
-              </div>
-              <div className="summary-row">
-                <span className="summary-label">Time</span>
-                <span className="summary-value">{slot.startTime} – {slot.endTime}</span>
-              </div>
-            </div>
+          <div className="summary-row">
+            <span className="summary-label">🕐 Time</span>
+            <span className="summary-value">{slot.startTime} – {slot.endTime}</span>
+          </div>
+        </div>
 
-            {error && <div className="alert alert-error">{error}</div>}
-
-            <div className="book-slot-actions">
-              <button className="btn-confirm" onClick={handleBook} disabled={loading}>
-                {loading ? 'Booking...' : 'Confirm Booking'}
-              </button>
-              <button className="btn-cancel-modal" onClick={onClose}>Cancel</button>
-            </div>
-          </>
-        )}
+        <div className="book-slot-actions">
+          <button className="btn btn-primary" onClick={handleBook} disabled={loading}>
+            {loading ? <><div className="spinner"></div> Booking...</> : 'Confirm Booking'}
+          </button>
+          <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
+        </div>
       </div>
     </div>
   );

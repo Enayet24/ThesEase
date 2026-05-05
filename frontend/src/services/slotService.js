@@ -6,9 +6,11 @@ export const getAdvisorSlots = () => api.get('/slots/my-slots');
 export const updateSlot = (id, data) => api.put(`/slots/${id}`, data);
 export const deleteSlot = (id) => api.delete(`/slots/${id}`);
 
-// Student
+// Student booking
 export const bookSlot = (slotId) => api.post(`/slots/${slotId}/book`);
 export const cancelBooking = (bookingId) => api.patch(`/slots/cancel/${bookingId}`);
+export const cancelBookingWithReason = (bookingId, reason) =>
+  api.patch(`/slots/cancel/${bookingId}`, { reason });
 
 // Reviews
 export const submitReview = (bookingId, data) => api.post(`/reviews/${bookingId}`, data);

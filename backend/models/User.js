@@ -1,12 +1,79 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 
-const userSchema = new mongoose.Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  role: { type: String, enum: ['student', 'advisor', 'admin'], required: true },
-  isVerified: { type: Boolean, default: false },
-  verificationToken: { type: String },
-}, { timestamps: true });
+const userSchema = new mongoose.Schema(
+  {
+    name: {
+      type: String,
+      required: [true, 'Please provide your full name'],
+      trim: true,
+      minlength: [2, 'Name must be at least 2 characters'],
+      maxlength: [50, 'Name cannot exceed 50 characters'],
+    },
+    email: {
+      type: String,
+      required: [true, 'Please provide your university email'],
+      unique: true,
+      lowercase: true,
+      trim: true,
+      match: [
+        /^[^\s@]+@(g\.bracu\.ac\.bd|gmail\.com)$/,
+        'Please use @g.bracu.ac.bd (student) or @gmail.com (advisor)',
+      ],
+    },
+    password: {
+      type: String,
+      required: [true, 'Please provide a password'],
+      minlength: [8, 'Password must be at least 8 characters'],
+      select: false, // Don't include password in queries by default
+    },
+    role: {
+      type: String,
+      enum: ['student', 'advisor'],
+      required: true,
+    },
+    isVerified: {
+      type: Boolean,
+      default: false,
+    },
+    otp: {
+      type: String,
+      select: false,
+    },
+    otpExpiry: {
+      type: Date,
+      select: false,
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-module.exports = mongoose.model('User', userSchema);
+// Pre-save hook to hash password
+userSchema.pre('save', async function () {
+  // Only hash if password is modified
+  if (!this.isModified('password')) return;
+
+  const salt = await bcrypt.genSalt(12);
+  this.password = await bcrypt.hash(this.password, salt);
+});
+
+// Instance method to compare passwords
+userSchema.methods.comparePassword = async function (candidatePassword) {
+  return await bcrypt.compare(candidatePassword, this.password);
+};
+
+// Static method to detect role from email
+userSchema.statics.detectRole = function (email) {
+  if (email.endsWith('@g.bracu.ac.bd')) {
+    return 'student';
+  } else if (email.endsWith('@gmail.com')) {
+    return 'advisor';
+  }
+  return null;
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

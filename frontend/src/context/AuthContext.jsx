@@ -1,23 +1,59 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import { getProfile, logoutUser } from '../api/authAPI';
 
-const AuthContext = createContext();
+const AuthContext = createContext(null);
 
-// 🔧 MOCK USER — change role to 'student' to test student pages
-const MOCK_USER = {
-  _id: '664f1b2c9a4e2d001f8a1234',
-  name: 'Ahmed Rahman',
-  email: 'student@test.com',
-  role: 'advisor', // change to 'student' to test student pages
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (!context) throw new Error('useAuth must be used within AuthProvider');
+  return context;
 };
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(MOCK_USER);
+  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    checkAuth();
+  }, []);
+
+  const checkAuth = async () => {
+    const token = localStorage.getItem('thesease-token');
+    if (!token) { setLoading(false); return; }
+    try {
+      const res = await getProfile();
+      setUser(res.data.user);
+    } catch {
+      localStorage.removeItem('thesease-token');
+      localStorage.removeItem('thesease-user');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const login = (token, userData) => {
+    localStorage.setItem('thesease-token', token);
+    localStorage.setItem('thesease-user', JSON.stringify(userData));
+    setUser(userData);
+  };
+
+  const logout = async () => {
+    try {
+      await logoutUser();
+    } catch {
+      // Even if API call fails, clear locally
+    } finally {
+      localStorage.removeItem('thesease-token');
+      localStorage.removeItem('thesease-user');
+      setUser(null);
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ user, setUser, loading: false }}>
+    <AuthContext.Provider value={{ user, setUser, loading, login, logout, checkAuth }}>
       {children}
     </AuthContext.Provider>
   );
 };
 
-export const useAuth = () => useContext(AuthContext);
+export default AuthContext;

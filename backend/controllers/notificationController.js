@@ -1,6 +1,6 @@
-const Booking = require('../../models/Booking');
-const Slot = require('../../models/Slot');
-const Notification = require('../../models/Notification');
+const Booking = require('../models/Booking');
+const Slot = require('../models/Slot');
+const Notification = require('../models/Notification');
 
 const cancelBooking = async (req, res) => {
   try {

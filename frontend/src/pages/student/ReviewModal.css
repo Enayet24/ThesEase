@@ -1,81 +1,59 @@
 .review-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 200;
-  padding: 20px;
+  padding: 24px;
 }
 
 .review-modal {
   background: white;
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 32px;
-  width: 100%;
   max-width: 440px;
+  width: 100%;
   position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+}
+
+.review-modal h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1A3557;
+  text-align: center;
+  margin: 0;
+}
+
+.review-subtitle {
+  text-align: center;
+  color: #64748b;
+  font-size: 14px;
+  margin: 8px 0 24px;
+}
+
+.review-subtitle strong {
+  color: #1A3557;
 }
 
 .modal-close {
   position: absolute;
   top: 16px;
   right: 16px;
-  background: #f1f5f9;
-  border: none;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  font-size: 14px;
-  cursor: pointer;
-  color: #64748b;
-}
-
-.modal-close:hover { background: #e2e8f0; }
-
-.review-modal h2 {
-  font-size: 20px;
-  font-weight: 700;
-  color: #1A3557;
-  margin: 0 0 4px 0;
-  text-align: center;
-}
-
-.review-subtitle {
-  font-size: 14px;
-  color: #64748b;
-  text-align: center;
-  margin: 0 0 24px 0;
-}
-
-.star-rating {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.star {
   background: none;
   border: none;
-  font-size: 36px;
+  color: #94a3b8;
+  font-size: 18px;
   cursor: pointer;
-  color: #cbd5e1;
-  transition: color 0.15s;
-  padding: 0;
-  line-height: 1;
+  padding: 4px 8px;
+  border-radius: 6px;
 }
 
-.star.filled { color: #f59e0b; }
-
-.rating-label {
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: #f59e0b;
-  margin: 0 0 20px 0;
-  min-height: 20px;
+.modal-close:hover {
+  color: #1e293b;
+  background: #f1f5f9;
 }
 
 .review-form {
@@ -84,58 +62,106 @@
   gap: 16px;
 }
 
-.form-group {
+/* Star Rating */
+.star-rating {
   display: flex;
-  flex-direction: column;
-  gap: 6px;
+  justify-content: center;
+  gap: 8px;
 }
 
-.form-group label {
+.star {
+  background: none;
+  border: none;
+  font-size: 32px;
+  cursor: pointer;
+  color: #cbd5e1;
+  transition: all 0.15s;
+  padding: 4px;
+}
+
+.star:hover,
+.star.filled {
+  color: #f59e0b;
+  transform: scale(1.15);
+}
+
+.rating-label {
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: #f59e0b;
+  min-height: 20px;
+  margin: 0;
+}
+
+.review-form .form-group label {
   font-size: 13px;
   font-weight: 600;
   color: #334155;
+  margin-bottom: 6px;
+  display: block;
 }
 
-.form-group textarea {
-  padding: 10px 12px;
-  border: 1px solid #cbd5e1;
+.review-form textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid #e2e8f0;
   border-radius: 8px;
   font-size: 14px;
-  color: #1e293b;
-  outline: none;
-  font-family: inherit;
   resize: vertical;
-  transition: border-color 0.2s;
+  min-height: 80px;
+  box-sizing: border-box;
 }
 
-.form-group textarea:focus {
+.review-form textarea:focus {
+  outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
 }
 
-.alert { padding: 10px 14px; border-radius: 8px; font-size: 13px; font-weight: 500; }
-.alert-error { background: #fee2e2; color: #991b1b; border: 1px solid #fecaca; }
-
 .btn-submit-review {
+  padding: 12px;
   background: #1A3557;
   color: white;
   border: none;
-  padding: 12px;
   border-radius: 8px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s;
-  width: 100%;
 }
 
-.btn-submit-review:hover { background: #2563eb; }
-.btn-submit-review:disabled { background: #94a3b8; cursor: not-allowed; }
+.btn-submit-review:hover {
+  background: #2563eb;
+}
+
+.btn-submit-review:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
 
 .review-success {
   text-align: center;
-  padding: 20px 0;
+  padding: 32px;
 }
 
-.review-success span { font-size: 40px; display: block; margin-bottom: 12px; }
-.review-success p { font-size: 16px; font-weight: 700; color: #166534; }
+.review-success span {
+  font-size: 48px;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.review-success p {
+  font-size: 16px;
+  font-weight: 600;
+  color: #16a34a;
+}
+
+.alert-error {
+  background: #fee2e2;
+  color: #991b1b;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+}

@@ -1,58 +1,82 @@
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
-import api from '../services/api';
 import './Navbar.css';
 
 function Navbar() {
-  const { user, setUser } = useAuth();
+  const { user, logout } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    try {
-      await api.post('/auth/logout');
-    } catch {
-      // Even if the API call fails, clear locally
-    } finally {
-      setUser(null);
-      navigate('/login');
-    }
+    await logout();
+    navigate('/login');
   };
 
-  if (!user) return null;
-
   return (
-    <nav className="navbar">
-      <Link to={user.role === 'advisor' ? '/advisor/dashboard' : '/student/dashboard'} className="navbar-brand">
-        Thes<span>Ease</span>
-      </Link>
+    <>
+      <nav className="navbar" id="main-navbar">
+        <div className="navbar-inner">
+          <Link
+            to={user
+              ? user.role === 'advisor' ? '/advisor/dashboard' : '/student/dashboard'
+              : '/login'}
+            className="navbar-logo"
+          >
+            <span className="navbar-logo-icon">📚</span>
+            <span className="navbar-logo-text">ThesEase</span>
+          </Link>
 
-      <div className="navbar-links">
-        {user.role === 'advisor' && (
-          <>
-            <Link to="/advisor/dashboard">Dashboard</Link>
-            <Link to="/advisor/profile">Profile</Link>
-            <Link to="/advisor/routine">Routine</Link>
-            <Link to="/advisor/slots">Slots</Link>
-          </>
-        )}
-        {user.role === 'student' && (
-          <>
-            <Link to="/student/dashboard">Dashboard</Link>
-            <Link to="/student/browse">Browse Advisors</Link>
-          </>
-        )}
-      </div>
+          {user && (
+            <div className="navbar-links">
+              {user.role === 'advisor' && (
+                <>
+                  <Link to="/advisor/dashboard">Dashboard</Link>
+                  <Link to="/advisor/profile">Profile</Link>
+                  <Link to="/advisor/routine">Routine</Link>
+                  <Link to="/advisor/slots">Slots</Link>
+                </>
+              )}
+              {user.role === 'student' && (
+                <>
+                  <Link to="/student/dashboard">Dashboard</Link>
+                  <Link to="/student/browse">Browse Advisors</Link>
+                </>
+              )}
+            </div>
+          )}
 
-      <div className="navbar-user">
-        <div className="user-info">
-          <span className="user-name">{user.name}</span>
-          <span className="user-role">{user.role}</span>
+          <div className="navbar-actions">
+            {user ? (
+              <div className="navbar-user">
+                <div className="navbar-user-info">
+                  <div className="navbar-user-name">{user.name}</div>
+                  <div className="navbar-user-role">{user.role}</div>
+                </div>
+                <div className="navbar-avatar">
+                  {user.name?.charAt(0).toUpperCase()}
+                </div>
+                <button
+                  className="btn-logout"
+                  onClick={handleLogout}
+                  id="logout-btn"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <>
+                <Link to="/login" className="nav-auth-link" id="nav-login-btn">
+                  Log In
+                </Link>
+                <Link to="/signup" className="nav-signup-btn" id="nav-register-btn">
+                  Sign Up
+                </Link>
+              </>
+            )}
+          </div>
         </div>
-        <button className="btn-logout" onClick={handleLogout}>
-          Logout
-        </button>
-      </div>
-    </nav>
+      </nav>
+      <div className="navbar-spacer"></div>
+    </>
   );
 }
 
