@@ -1,4 +1,4 @@
-const Slot = require('../../models/Slot');
+const Slot = require('../models/Slot');
 
 const filterSlots = async (req, res) => {
   try {

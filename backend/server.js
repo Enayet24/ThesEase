@@ -145,7 +145,7 @@ app.get('/api/auth/me', async (req, res) => {
 app.use('/api/advisor', require('./routes/advisorRoutes'));
 app.use('/api/student', require('./routes/studentRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
-app.use('/api/features', require('./routes/featureRoutes'));
+// app.use('/api/features', require('./routes/featureRoutes'));
 
 // DB connect
 mongoose.connect(process.env.MONGO_URI)

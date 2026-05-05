@@ -1,4 +1,4 @@
-const AdvisorProfile = require('../../models/AdvisorProfile');
+const AdvisorProfile = require('../models/AdvisorProfile');
 
 const searchByExpertise = async (req, res) => {
   try {
